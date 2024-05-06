@@ -4,7 +4,7 @@ const slugify = require("slugify");
 
 const createProduct = asyncHandler(async (req, res) => {
   const { title, price, description, category } = req.body;
-  const images = req?.file?.images[0].path;
+  let images = req?.file?.path;
 
   if (!(title && price && description && category)) {
     throw new Error("Missing input");
@@ -93,11 +93,11 @@ const getAllProduct = asyncHandler(async (req, res) => {
 
 const updateProduct = asyncHandler(async (req, res) => {
   const { pid } = req.params;
-  // const file = req?.file;
+
   const { title, price, category, quantity, description } = req.body;
   const data = { title, price, category, quantity, description };
   if (req.file) {
-    data.images = req.file.path;
+    data.images = req?.file?.path;
   }
 
   // if (file.images) {
