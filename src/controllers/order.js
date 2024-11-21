@@ -43,7 +43,13 @@ const updateStatus = asyncHandler(async (req, res) => {
 const getUserOrder = asyncHandler(async (req, res) => {
   const { _id } = req.user;
 
-  const response = await Order.find({ orderBy: _id });
+  const response = await Order.find({ orderBy: _id }).populate({
+    path: "products.product",
+    select: "title price",
+  });
+
+  // console.log(response);
+
   return res.status(200).json({
     success: response ? true : false,
     response: response ? response : "Something went wrong",
@@ -51,7 +57,13 @@ const getUserOrder = asyncHandler(async (req, res) => {
 });
 
 const getAllOrder = asyncHandler(async (req, res) => {
-  const response = await Order.find();
+  const response = await Order.find().populate({
+    path: "orderBy",
+    select: "firstname lastname",
+  });
+
+  // console.log(response);
+
   return res.status(200).json({
     success: response ? true : false,
     response: response ? response : "Something went wrong",
